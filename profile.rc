@@ -1,0 +1,44 @@
+
+# change to whatever base directory you care about
+export SRC_ROOT=/mnt/c/src
+
+if [ -z $TMUX ]; then
+    echo "changing to /mnt/c/src/peach-web"
+    cd $SRC_ROOT
+else
+    export TERM=xterm-256color
+fi
+
+
+workon() {
+    if [ $# -eq 0 ]; then
+        cd $SRC_ROOT
+        return 0
+    fi
+    if [ -z $SRC_ROOT/$1 ]; then
+        echo "no such directory $SRC_ROOT/$1"
+        return 1
+    else
+        cd $SRC_ROOT/$1
+        clear 
+        return 0
+    fi
+
+}
+
+# not relevant anymore but useful concept
+#pcli() {
+#    . ~/peachtest/bin/activate
+#    . ~/.devrc
+#
+#}
+
+ssh() {
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+        tmux rename-window "$(echo $* | cut -d . -f 1)"
+        command ssh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh "$@"
+    fi
+}
