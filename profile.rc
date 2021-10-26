@@ -3,7 +3,7 @@
 export SRC_ROOT=/mnt/c/src
 
 if [ -z $TMUX ]; then
-    echo "changing to /mnt/c/src/peach-web"
+    echo "changing to /mnt/c/src/"
     cd $SRC_ROOT
 else
     export TERM=xterm-256color
@@ -12,7 +12,7 @@ fi
 
 workon() {
     if [ $# -eq 0 ]; then
-        cd $SRC_ROOT
+        ls $SRC_ROOT
         return 0
     fi
     if [ -z $SRC_ROOT/$1 ]; then
